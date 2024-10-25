@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kysymysgeneraattori</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            margin: 0;
+        }
+        #container {
+            text-align: center;
+            max-width: 500px;
+        }
+        #question {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #ad593d;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #bd5f37;
+        }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <h1>Kysymyspeli</h1>
+    <div id="question">Klikkaa "Arvo kysymys" saadaksesi satunnaisen kysymyksen!</div>
+    <button onclick="arvoKysymys()">Arvo kysymys</button>
+</div>
+
+<script>
+    const kysymykset = [
+        "Kerro mihin tosi tv-formaattiin jokainen pelaaja sopisi.",
+	"Näyttele kohtaus jostain elokuvasta. Muut arvaavat mistä.",
+	"Nimeä 30 pääkaupunkia. Juo hörppy jos et osaa.",
+	"Esitä pelaajille kysymys. Nopeiten oikein vastannut saa osoittaa huikan jollekulle pelaajista.",
+	"Kerro salaisuus.",
+	"Kerro milloin valehtelit viimeksi.",
+	"Kerro joku unelmasi.",
+	"Haasta oikealla puolellasi istuva pelaaja peukkusotaan. Häviäjä hörppää.",
+	"Kuka oli lapsuuden sankarisi?",
+	"Keksi kaikille pelaajille lempinimi.",
+	"Kerro kaksi totuutta ja yksi vale. Muut yrittävät tunnistaa valeen.",
+	"Kuvaile unelmalomaasi.",
+	"On juhlan aika! Pidä korea juhlapuhe ja nosta lopuksi malja.",
+	"Kategoria! Kierros jatkuu vasemmalle.",
+	"Jallu-pullonhenki myöntää sinulle kolme toivomusta. Mitä toivot?",
+	"Kerro vitsi.",
+	"Esittele oikealla puolellasi istuva henkilö muille pelaajille ja kohottakaa sitten yhdessä malja.",
+	"Kuvaile jokaista pelaajaa yhdellä adjektiivilla.",
+	"En ole koskaan! Sinä aloitat.",
+	"Keksi itsellesi iskulause Temptation Islandin hengessä ja kaada itsellesi kunnon tempparikaato juotavaa.",
+	"Elämäsi biisi <3 kerro mikä se on ja kerro myös tarina taustalla.",
+	"Uuden vuoden summaus: missä olet onnistunut ja epäonnistunut tämän vuoden aikana? Juo huikat molemmille.",
+	"Luettele ainakin viiden pelaajan toinen/toiset nimet. Jos epäonnistut, häpeä.",
+	"Mitä tekoasi häpeät? Jos et halua vastata, juo kolme.",
+	"Totta vai tarua? Kerro mehevä väite itsestäsi ja kanssapelaajat yrittävät selvittää onko se totta. Väärästä vastauksesta kaikki juovat huikan.",
+	"Esittele puhelimesi gallerian kuudestoista kuva. ",
+	"Mihin tosi-TV ohjelmaan osallistuisit, jos olisi pakko?",
+	"Ota selfie henkilön kanssa, jonka tunnet huonoiten. Skoolatkaa ystävyytenne kunniaksi.",
+	"Kenen kanssapelaajan kanssa olisit mieluiten autiolla saarella? Skoolatkaa selviytymistaitojen kunniaksi.",
+	"Tee paras party trick, jonka osaat. Jos et suostu tai yleisö ei ole siitä vakuuttunut, siemaise huikka lohdutukseksi.",
+	"Keksi kaikille pelaajille uusi ammatti. Kaikki skoolaavat uuden elämänsä kunniaksi.",
+	"Jos kuolisit, millaiset hautajaiset haluaisit? Muut juovat suruunsa.",
+	"Jos elämästäsi tehtäisiin elokuva, kuka näyttelisi päähenkilöä, eli sinua?",
+	"Kerro typerin hankintasi ja juo huikka piristykseksi.",
+	"Mikä on paheesi ;) paljasta se muille ja juo huikka.",
+	"Kuumin julkkismies ja -nainen? Kaikki ottavat huikan kuumuuden kunniaksi.",
+	"Jos sinun olisi osallistuttava olympialaisiin, missä lajissa kilpailisit? Huikkaa kulaus siitä hyvästä, että sinun ei oikeasti tarvi kilpailla.",
+	"Kehu kauniisti pelaajaa, joka on kolmas vasemmalla. Kaikki juovat huikat herkän hetken kunniaksi.",
+	"Kenen/keiden pelaajista kanssa perustaisit puolueen? Skoolatkaa jalolle aatteellenne.",
+	"Kuka pelaajista todennäköisimmin joutuisi vankilaan? Miksi?",
+	"Kerro kamalimmista treffeistäsi. Kaikki pelaajat skoolaavat säälistä.",
+	"Työhaastattelu! Kerro suurimmista vahvuuksistasi.",
+	"Kerro ensisuudelmastasi. Jos et kehtaa, juo kaksi huikkaa.",
+	"Sinä ja toinen pelaaja vasemmalla laulatte karaokessa päräyttävän kappaleen. Mikä olisi biisi, jonka esittäisitte? Juokaa huikat kuvitteelliselle show’lle.",
+	"Paljasta salattu talenttisi ja anna mahdollisesti siitä lyhyt näyte. Ota huikka.",
+	"Kuka pelaajista todennäköisimmin nousisi Suomen presidentiksi? Perustele ja presidentti ottaa huikan.",
+	"Guilty pleasures :D paljasta mahdollisesti nolohko lempparibiisi ja siemaise huikka.",
+	"Maljapuhe! Puheen päätyttyä skoolatkaa juhlan kunniaksi.",
+	"Paljasta kanssapelaajille jotain, mitä he eivät tiedä sinusta. Jos et kehtaa, ota kolme huikkaa.",
+	"Kumman kaa? Vasemmalla puolella istuva pelaaja keksii sinulle vaihtoehdot, joista valitset. Ota lopuksi hörppy.",
+	"En ole koskaan… sinä aloitat ;)",
+	"Oletko tehnyt jotain laitonta jota kadut? Kerro tarina. Jos et (nössö), juo kaksi. Jos et halua kertoa, juo viisi.",
+	"Oletko ghostannut koskaan? Kerro tarina. Jos et, juo palkinnoksi kaksi huikkaa. Jos et halua kertoa, juo viisi.",
+	"Oletko ihastunut koskaan opettajaasi tai työkaveriisi? Kuka hän oli? Jos et, juo kaksi huikkaa. Jos et halua kertoa, juo viisi.",
+	"Jos saisit suunnitella vasemmalla puolellasi istuvalle henkilölle tatuoinnin, millainen se olisi?",
+	"Kerro, mitä eläintä jokainen pelaaja muistuttaa.",
+	"Oletko koskaan valehdellut jättäytyäksesi pois töistä? Jos et, tai et halua kertoa, juo viisi.",
+	"Millaiset ovat unelmatreffisi? Kuvaile niitä. Ne joiden mielestä treffit ovat hyvät, juovat huikan.",
+	"Jos saisit päivän ajan olla joku pelaajista, kuka olisit?",
+	"Luettele kaikkien pelaajien nimet takaperin. Virheestä rangaistaan hörpyllä.",
+	"Kerro pahin tai oudoin pelkosi ja juo pitkä rohkaisuryyppy.",
+	"Jos sinulla olisi yritys, mitä se tekisi? Muut kertovat, sijoittaisivatko he toimintaasi. Liiketoiminnasta kiinnostuneet skoolaavat.",
+	"Kerro itsestäsi kolme totuutta ja yksi vale. Muut arvaavat mikä väittämistä ei ollut totta. Jos he eivät arvaa, ota pitkä huikka ja naura.",
+	"En ole koskaan-kierros. Jos olet tehnyt kyseisen asian, juot.",
+	"Keksi vieruskasverisi kanssa salainen kädenpuristus, jota käytätte toistenne kanssa aina kun tapaatte.",
+	"Valitse joku emoji, ja esitä sitä muille ilman sanoja. Muut yrittävät arvata, mikä emoji on kyseessä.",
+	"Luettele kaikkien pelaajien ammatit/opiskelualat. Juo yksi jokaisesta virheestä."
+   ];
+
+    function arvoKysymys() {
+        const randomIndex = Math.floor(Math.random() * kysymykset.length);
+        document.getElementById("question").innerText = kysymykset[randomIndex];
+    }
+</script>
+
+</body>
+</html>
